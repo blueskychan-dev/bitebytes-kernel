@@ -49,21 +49,21 @@
 				system {
 					compatible = "android,system";
 					dev = "/dev/block/platform/11120000.ufs/by-name/SYSTEM";
-					type = "ext4";
+					type = "erofs";
 					mnt_flags = "ro";
 					fsmgr_flags = "wait";
 				};
 				vendor {
 					compatible = "android,vendor";
 					dev = "/dev/block/platform/11120000.ufs/by-name/VENDOR";
-					type = "ext4";
+					type = "erofs";
 					mnt_flags = "ro";
 					fsmgr_flags = "wait";
 				};
 				odm {
 					compatible = "android,odm";
 					dev = "/dev/block/platform/11120000.ufs/by-name/ODM";
-					type = "ext4";
+					type = "erofs";
 					mnt_flags = "ro";
 					fsmgr_flags = "wait";
 				};
@@ -517,7 +517,7 @@
 			pinctrl-names = "default";
 			pinctrl-0 = <&pmic_irq &pm_wrsti &smpl_warn>;
 			gpios = <&gpg0 3 0>;
-			smpl_warn_en = <1>; /* 1 : enable , 0 : disable */
+			smpl_warn_en = <0>; /* 1 : enable , 0 : disable */
 			/* range of smpl_warn_vth */
 			/* 0x00 : 2.1V, 0x20 : 2.3V, 0x40 : 2.5V, 0x60 : 2.7V 0x80 : 2.9V */
 			/* 0xA0 : 3.1V, 0xC0 : 3.3V, 0xE0 : 3.5V */
@@ -527,10 +527,10 @@
 			adc_mode = <2>; /* 0 : disable, 1 : current meter, 2 : power meter */
 			adc_sync_mode = <2>; /* 1 : sync mode, 2 : async mode */
 			g3d_en = <1>; /* 1 : enable , 0 : disable */
-			cpu_ocp_warn_en = <1>; /* 1 : enable, 0 : disable */
+			cpu_ocp_warn_en = <0>; /* 1 : enable, 0 : disable */
 			cpu_ocp_warn_reset = <0>; /* 0 : 2 clock, 1 : 32 clock */
 			cpu_ocp_warn_lv = <0x0>; /* step : -250mA */
-			gpu_ocp_warn_en = <1>; /* 1: enable, 0 : disable */
+			gpu_ocp_warn_en = <0>; /* 1: enable, 0 : disable */
 			gpu_ocp_warn_reset = <1>; /* 0 : 2 clock, 1 : 32 clock */
 			gpu_ocp_warn_lv = <0x0>; /* step : -166mA */
 			/* RTC: wtsr/smpl */
@@ -560,7 +560,7 @@
 				buck2_reg: BUCK2 {
 					regulator-name = "vdd_cpucl1";
 					regulator-min-microvolt = <450000>;
-					regulator-max-microvolt = <1300000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-ramp-delay = <6000>;
 					regulator-initial-mode = <1>;
@@ -569,7 +569,7 @@
 				buck3_reg: BUCK3 {
 					regulator-name = "vdd_cpucl0";
 					regulator-min-microvolt = <450000>;
-					regulator-max-microvolt = <1300000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-ramp-delay = <6000>;
 					regulator-initial-mode = <1>;
@@ -596,7 +596,7 @@
 				buck6_reg: BUCK6 {
 					regulator-name = "vdd_g3d";
 					regulator-min-microvolt = <450000>;
-					regulator-max-microvolt = <950000>;
+					regulator-max-microvolt = <1150000>;
 					regulator-always-on;
 					regulator-ramp-delay = <6000>;
 					regulator-initial-mode = <2>;
@@ -605,7 +605,7 @@
 				buck7_reg: BUCK7 {
 					regulator-name = "vdd_cpucl1_m";
 					regulator-min-microvolt = <450000>;
-					regulator-max-microvolt = <1300000>;
+					regulator-max-microvolt = <1500000>;
 					regulator-always-on;
 					regulator-ramp-delay = <6000>;
 					regulator-initial-mode = <1>;
@@ -1471,61 +1471,97 @@
 				default_hpg = <1>;
 
 				front_preview_int_cam = <DVFS_INT_CAM_L5>;
-				front_preview_cam = <DVFS_CAM_L9>;
+				front_preview_cam = <DVFS_CAM_L5>;
 				front_preview_mif = <DVFS_MIF_L6>;
 				front_preview_int = <DVFS_INT_L5>;
 				front_preview_hpg = <1>;
 
 				front_preview_full_int_cam = <DVFS_INT_CAM_L3>;
-				front_preview_full_cam = <DVFS_CAM_L9>;
+				front_preview_full_cam = <DVFS_CAM_L5>;
 				front_preview_full_mif = <DVFS_MIF_L6>;
 				front_preview_full_int = <DVFS_INT_L5>;
 				front_preview_full_hpg = <1>;
 
 				front_capture_int_cam = <DVFS_INT_CAM_L3>;
-				front_capture_cam = <DVFS_CAM_L9>;
+				front_capture_cam = <DVFS_CAM_L5>;
 				front_capture_mif = <DVFS_MIF_L6>;
 				front_capture_int = <DVFS_INT_L5>;
 				front_capture_hpg = <1>;
+				
+				front_preview_remosaic_int_cam = <DVFS_INT_CAM_L2>;
+				front_preview_remosaic_cam = <DVFS_CAM_L5>;
+				front_preview_remosaic_mif = <DVFS_MIF_L6>;
+				front_preview_remosaic_int = <DVFS_INT_L5>;
+				front_preview_remosaic_hpg = <1>;
+
+				front_capture_remosaic_int_cam = <DVFS_INT_CAM_L2>;
+				front_capture_remosaic_cam = <DVFS_CAM_L5>;
+				front_capture_remosaic_mif = <DVFS_MIF_L6>;
+				front_capture_remosaic_int = <DVFS_INT_L5>;
+				front_capture_remosaic_hpg = <1>;
 
 				front_video_int_cam = <DVFS_INT_CAM_L5>;
-				front_video_cam = <DVFS_CAM_L9>;
+				front_video_cam = <DVFS_CAM_L5>;
 				front_video_mif = <DVFS_MIF_L6>;
 				front_video_int = <DVFS_INT_L5>;
 				front_video_hpg = <1>;
 
 				front_video_whd_int_cam = <DVFS_INT_CAM_L5>;
-				front_video_whd_cam = <DVFS_CAM_L9>;
+				front_video_whd_cam = <DVFS_CAM_L5>;
 				front_video_whd_mif = <DVFS_MIF_L6>;
 				front_video_whd_int = <DVFS_INT_L5>;
 				front_video_whd_hpg = <1>;
+				
+				front_video_uhd_int_cam = <DVFS_INT_CAM_L3>;
+				front_video_uhd_cam = <DVFS_CAM_L5>;
+				front_video_uhd_mif = <DVFS_MIF_L6>;
+				front_video_uhd_int = <DVFS_INT_L5>;
+				front_video_uhd_hpg = <1>;
 
+				front_video_fhd_60fps_int_cam = <DVFS_INT_CAM_L3>;
+				front_video_fhd_60fps_cam = <DVFS_CAM_L5>;
+				front_video_fhd_60fps_mif = <DVFS_MIF_L6>;
+				front_video_fhd_60fps_int = <DVFS_INT_L5>;
+				front_video_fhd_60fps_hpg = <1>;
+				
 				front_video_capture_int_cam = <DVFS_INT_CAM_L3>;
-				front_video_capture_cam = <DVFS_CAM_L8>;
+				front_video_capture_cam = <DVFS_CAM_L5>;
 				front_video_capture_mif = <DVFS_MIF_L6>;
 				front_video_capture_int = <DVFS_INT_L5>;
 				front_video_capture_hpg = <1>;
 
 				front_video_whd_capture_int_cam = <DVFS_INT_CAM_L3>;
-				front_video_whd_capture_cam = <DVFS_CAM_L9>;
+				front_video_whd_capture_cam = <DVFS_CAM_L5>;
 				front_video_whd_capture_mif = <DVFS_MIF_L6>;
 				front_video_whd_capture_int = <DVFS_INT_L5>;
 				front_video_whd_capture_hpg = <1>;
 
+				front_video_uhd_capture_int_cam = <DVFS_INT_CAM_L3>;
+				front_video_uhd_capture_cam = <DVFS_CAM_L5>;
+				front_video_uhd_capture_mif = <DVFS_MIF_L6>;
+				front_video_uhd_capture_int = <DVFS_INT_L5>;
+				front_video_uhd_capture_hpg = <1>;
+
+				front_video_fhd_60fps_capture_int_cam = <DVFS_INT_CAM_L3>;
+				front_video_fhd_60fps_capture_cam = <DVFS_CAM_L5>;
+				front_video_fhd_60fps_capture_mif = <DVFS_MIF_L6>;
+				front_video_fhd_60fps_capture_int = <DVFS_INT_L5>;
+				front_video_fhd_60fps_capture_hpg = <1>;
+
 				front_vt1_int_cam = <DVFS_INT_CAM_L5>;
-				front_vt1_cam = <DVFS_CAM_L9>;
+				front_vt1_cam = <DVFS_CAM_L5>;
 				front_vt1_mif = <DVFS_MIF_L6>;
 				front_vt1_int = <DVFS_INT_L5>;
 				front_vt1_hpg = <1>;
 
 				front_vt2_int_cam = <DVFS_INT_CAM_L5>;
-				front_vt2_cam = <DVFS_CAM_L9>;
+				front_vt2_cam = <DVFS_CAM_L5>;
 				front_vt2_mif = <DVFS_MIF_L6>;
 				front_vt2_int = <DVFS_INT_L5>;
 				front_vt2_hpg = <1>;
 
 				front_vt4_int_cam = <DVFS_INT_CAM_L5>;
-				front_vt4_cam = <DVFS_CAM_L9>;
+				front_vt4_cam = <DVFS_CAM_L5>;
 				front_vt4_mif = <DVFS_MIF_L6>;
 				front_vt4_int = <DVFS_INT_L5>;
 				front_vt4_hpg = <1>;
@@ -1535,6 +1571,12 @@
 				front_preview_high_speed_fps_mif = <DVFS_MIF_L6>;
 				front_preview_high_speed_fps_int = <DVFS_INT_L5>;
 				front_preview_high_speed_fps_hpg = <1>;
+				
+				front_video_high_speed_120fps_int_cam = <DVFS_INT_CAM_L1>;
+				front_video_high_speed_120fps_cam = <DVFS_CAM_L5>;
+				front_video_high_speed_120fps_mif = <DVFS_MIF_L3>;
+				front_video_high_speed_120fps_int = <DVFS_INT_L5>;
+				front_video_high_speed_120fps_hpg = <1>;
 
 				rear2_preview_fhd_int_cam = <DVFS_INT_CAM_L5>;
 				rear2_preview_fhd_cam = <DVFS_CAM_L5>;
@@ -1574,7 +1616,7 @@
 
 				rear_preview_uhd_int_cam = <DVFS_INT_CAM_L3>;
 				rear_preview_uhd_cam = <DVFS_CAM_L5>;
-				rear_preview_uhd_mif = <DVFS_MIF_L5>;
+				rear_preview_uhd_mif = <DVFS_MIF_L4>;
 				rear_preview_uhd_int = <DVFS_INT_L5>;
 				rear_preview_uhd_hpg = <1>;
 
@@ -1586,15 +1628,27 @@
 
 				rear_preview_full_int_cam = <DVFS_INT_CAM_L3>;
 				rear_preview_full_cam = <DVFS_CAM_L5>;
-				rear_preview_full_mif = <DVFS_MIF_L6>;
+				rear_preview_full_mif = <DVFS_MIF_L5>;
 				rear_preview_full_int = <DVFS_INT_L5>;
 				rear_preview_full_hpg = <1>;
+				
+				rear_preview_remosaic_int_cam = <DVFS_INT_CAM_L2>;
+				rear_preview_remosaic_cam = <DVFS_CAM_L5>;
+				rear_preview_remosaic_mif = <DVFS_MIF_L3>;
+				rear_preview_remosaic_int = <DVFS_INT_L5>;
+				rear_preview_remosaic_hpg = <1>;
 
 				rear_capture_int_cam = <DVFS_INT_CAM_L3>;
 				rear_capture_cam = <DVFS_CAM_L5>;
 				rear_capture_mif = <DVFS_MIF_L6>;
 				rear_capture_int = <DVFS_INT_L5>;
 				rear_capture_hpg = <1>;
+				
+				rear_capture_remosaic_int_cam = <DVFS_INT_CAM_L1>;
+				rear_capture_remosaic_cam = <DVFS_CAM_L5>;
+				rear_capture_remosaic_mif = <DVFS_MIF_L3>;
+				rear_capture_remosaic_int = <DVFS_INT_L5>;
+				rear_capture_remosaic_hpg = <1>;
 
 				rear_video_fhd_int_cam = <DVFS_INT_CAM_L3>;
 				rear_video_fhd_cam = <DVFS_CAM_L5>;
@@ -1610,7 +1664,7 @@
 
 				rear_video_uhd_int_cam = <DVFS_INT_CAM_L3>;
 				rear_video_uhd_cam = <DVFS_CAM_L5>;
-				rear_video_uhd_mif = <DVFS_MIF_L5>;
+				rear_video_uhd_mif = <DVFS_MIF_L4>;
 				rear_video_uhd_int = <DVFS_INT_L5>;
 				rear_video_uhd_hpg = <1>;
 
@@ -1634,7 +1688,7 @@
 
 				rear_video_uhd_capture_int_cam = <DVFS_INT_CAM_L3>;
 				rear_video_uhd_capture_cam = <DVFS_CAM_L5>;
-				rear_video_uhd_capture_mif = <DVFS_MIF_L5>;
+				rear_video_uhd_capture_mif = <DVFS_MIF_L4>;
 				rear_video_uhd_capture_int = <DVFS_INT_L5>;
 				rear_video_uhd_capture_hpg = <1>;
 
@@ -1664,13 +1718,13 @@
 
 				dual_video_uhd_int_cam = <DVFS_INT_CAM_L3>;
 				dual_video_uhd_cam = <DVFS_CAM_L5>;
-				dual_video_uhd_mif = <DVFS_MIF_L5>;
+				dual_video_uhd_mif = <DVFS_MIF_L4>;
 				dual_video_uhd_int = <DVFS_INT_L5>;
 				dual_video_uhd_hpg = <1>;
 
 				dual_video_uhd_capture_int_cam = <DVFS_INT_CAM_L3>;
 				dual_video_uhd_capture_cam = <DVFS_CAM_L5>;
-				dual_video_uhd_capture_mif = <DVFS_MIF_L5>;
+				dual_video_uhd_capture_mif = <DVFS_MIF_L4>;
 				dual_video_uhd_capture_int = <DVFS_INT_L5>;
 				dual_video_uhd_capture_hpg = <1>;
 
@@ -2071,6 +2125,7 @@
 		status = "okay";
 		clock-frequency = <400000>;
 		samsung,reset-before-trans;
+		samsung,fast-plus-mode;
 
 		pinctrl-names = "default","on_i2c","off_i2c";
 		pinctrl-0 = <&hsi2c2_bus_in>;
@@ -2108,6 +2163,7 @@
 			vendor_first_pos = <120>;
 			vendor_first_delay = <2000>;
 			vendor_use_sleep_mode;
+			vendor_use_update_pid;
 		};
 	};
 
@@ -2453,24 +2509,24 @@
 				cl0 {
 					qos,label="LIT";
 					qos,delay_time=<9>;
-					qos,table_size=<10>;
-					qos,table=<1794000 1690000 1456000 1248000 1053000 949000 832000 715000 598000
-						455000>;
+					qos,table_size=<14>;
+					qos,table=<2002000 1950000 1794000 1690000 1456000 1248000 1053000 949000 832000 715000 598000
+						455000 299000 208000>;
 				};
 
 				cl1 {
 					qos,label="BIG";
 					qos,delay_time=<8>;
 					qos,big_turbo_enable=<7>;
-					qos,s_table_size=<18>;
-					qos,s_table=<2704000 2652000 2496000 2314000 2106000 2002000 1924000 1794000 1690000 
-						1586000 1469000 1261000	1170000 1066000 962000 858000 741000 650000>;
-					qos,d_table_size=<15>;
+					qos,s_table_size=<21>;
+					qos,s_table=<2886000 2860000 2704000 2652000 2496000 2314000 2106000 2002000 1924000 1794000 1690000 
+						1586000 1469000 1261000	1170000 1066000 962000 858000 741000 650000 598000>;
+					qos,d_table_size=<16>;
 					qos,d_table=<2314000 2106000 2002000 1924000 1794000 1690000 1586000 1469000 1261000
-						1170000 1066000 962000 858000 741000 650000>;
-					qos,q_table_size=<11>;
+						1170000 1066000 962000 858000 741000 650000 598000>;
+					qos,q_table_size=<12>;
 					qos,q_table=<1794000 1690000 1586000 1469000 1261000 1170000 1066000 962000 858000
-						741000 650000>;
+						741000 650000 598000>;
 				};
 
 				mif {
@@ -2533,123 +2589,200 @@
 		 * Duplicated number is not allowed. Please refer the below example.
 		 */
 
-		/* Table Format should be
-		 * <Throughput(Mbps) ARM_min ARM_max KFC_min KFC_max MIF INT Task IRQ HMP_boost>
-		 * ARM_min : Big Core's minimum frequency lock. 0 means not set,
-		 * ARM_max : Big Core's maximum frequency lock. 0 means not set,
-		 * KFC_min : Little Core's minimum frequency lock. 0 means not set,
-		 * KFC_max : Little Core's maximum frequency lock. 0 means not set,
-		 * MIF : MIF frequency lock. 0 means not set,
-		 * INT : INT frequency lock. 0 means not set,
-		 * Task : 1 - Set task affinity lock.
-		 *	0 - Not set or unlock,
-		 *		Task affinity should be predefined driver's code.
-		 * IRQ : 1 - Set irq affinity lock.
-		 *       0 - Not set or unlock,
-		 *		Task affinity should be predefined driver's code.
-		 * HMP_boots : 1 - Increase hmp boosting count
-		 *             0 - Decrease hmp boosting count
-		 */
-
-		/*
-		 * boot_device@9 {
-		 *	net_boost,label="WIFI RX";
-		 *	net_boost,node="wlan0";
-		 *	net_boost,table_size = <4>;
-		 *	net_boost,table= <
-		 *		5  2002000 0 1690000 0 0 0 0 0 0
-		 *		10 2002000 0 1690000 0 0 0 0 0 0
-		 *		20 2002000 0 1690000 0 845000 400000 1 1 1
-		 *		30 2002000 0 1690000 0 1352000 533000 1 1 1
-		 *		>;
-		 * };
-		 */
 		boot_device@1 {
-			net_boost,label="IPC";
-			net_boost,node="rmnet0 rmnet1 rmnet2 rmnet3 rmnet4 rmnet5 rmnet6 rmnet7 umts_dm0";
-			net_boost,table_size = <3>;
-			net_boost,table= <
-				100 0 0 1053000 0 845000 0 0 0 0
-				150 0 0 1248000 0 1014000 0 0 0 0
-				200 1924000 0 1690000 0 1794000 0 0 0 0
-				>;
+			net_boost,label = "UFS";
+			net_boost,node = [00];
+			net_boost,sysnode = "/sys/class/scsi_host/host0/transferred_cnt";
+
+			net_boost,table {
+
+				level_0 {
+					threshold = <400>;
+					lit_min = <1456000>;
+					mif = <1352000>;
+				};
+
+				level_1 {
+					threshold = <800>;
+					big_min = <1066000>;
+					lit_min = <1456000>;
+					mif = <1539000>;
+					hmp_boost = "enable";
+				};
+			};
 		};
+
 		boot_device@2 {
-			net_boost,label="CLAT";
-			net_boost,node="clat clat4 v4-rmnet0 v4-rmnet1 v4-rmnet2 v4-rmnet3 v4-rmnet4 v4-rmnet5 v4-rmnet6 v4-rmnet7";
-			net_boost,table_size = <5>;
-			net_boost,table= <
-				1 0 0 0 0 0 0 0 0 0
-				100 1066000 0 0 0 1014000 0 0 0 0
-				200 1117000 0 0 0 1794000 0 0 0 0
-				300 1261000 0 0 0 1794000 0 0 0 0
-				400 1469000 0 0 0 1794000 0 0 0 0
-				>;
+			net_boost,label = "WIFI TX";
+			net_boost,node = "wlan0";
+			net_boost,slowdown;
+
+			net_boost,table {
+
+				level_0 {
+					threshold = <60>;
+					big_min = <1469000>;
+					lit_min = <1456000>;
+				};
+
+				level_1 {
+					threshold = <150>;
+					big_min = <1690000>;
+					lit_min = <1690000>;
+				};
+
+				level_2 {
+					threshold = <200>;
+					big_min = <1924000>;
+					lit_min = <1794000>;
+					mif = <1352000>;
+					int = <400000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+
+				level_3 {
+					threshold = <300>;
+					big_min = <2002000>;
+					lit_min = <1794000>;
+					mif = <1794000>;
+					int = <534000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+			};
 		};
+
 		boot_device@3 {
-			net_boost,label="UFS";
-			net_boost,node="";
-			net_boost,sysnode="/sys/class/scsi_host/host0/transferred_cnt";
-			net_boost,table_size = <2>;
-			net_boost,table= <
-				112 0 0 1456000 0 1352000 0 0 0 0
-				800 1066000 0 1456000 0 1539000 0 0 0 1
-				>;
+			net_boost,label = "WIFI RX";
+			net_boost,node = "wlan0";
+			net_boost,slowdown;
+
+			net_boost,table {
+
+				level_0 {
+					threshold = <100>;
+					big_min = <1170000>;
+					lit_min = <1053000>;
+				};
+
+				level_1 {
+					threshold = <150>;
+					big_min = <1469000>;
+					lit_min = <1248000>;
+				};
+
+				level_2 {
+					threshold = <200>;
+					big_min = <1690000>;
+					lit_min = <1248000>;
+					mif = <845000>;
+					int = <400000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+
+				level_3 {
+					threshold = <300>;
+					big_min = <1924000>;
+					lit_min = <1456000>;
+					mif = <1352000>;
+					int = <534000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+			};
 		};
+
 		boot_device@4 {
-			net_boost,label="WIFI";
-			net_boost,node="wlan0";
-			net_boost,table_size = <3>;
-			net_boost,table= <
-				150 0 0 0 0 0 0 0 0 0
-				200 0 0 0 0 0 0 1 1 1
-				300 0 0 0 0 0 0 1 1 1
-				>;
+			net_boost,label = "P2P";
+			net_boost,node = "p2p-wlan0-0";
+			net_boost,slowdown;
+
+			net_boost,table {
+
+				level_0 {
+					threshold = <60>;
+					big_min = <1469000>;
+					lit_min = <1456000>;
+				};
+
+				level_1 {
+					threshold = <150>;
+					big_min = <1690000>;
+					lit_min = <1690000>;
+				};
+
+				level_2 {
+					threshold = <200>;
+					big_min = <1924000>;
+					lit_min = <1794000>;
+					mif = <1352000>;
+					int = <400000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+
+				level_3 {
+					threshold = <300>;
+					big_min = <2002000>;
+					lit_min = <1794000>;
+					mif = <1794000>;
+					int = <534000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+			};
 		};
+
 		boot_device@5 {
-			net_boost,label="WIFI TX";
-			net_boost,node="wlan0";
-			net_boost,table_size = <4>;
-			net_boost,table= <
-				60 1469000 0 1456000 0 0 0 0 0 0
-				150 1690000 0 1690000 0 0 0 0 0 0
-				200 1924000 0 1794000 0 1352000 400000 1 1 1
-				300 2002000 0 1794000 0 1794000 534000 1 1 1
-				>;
-		};
-		boot_device@6 {
-			net_boost,label="WIFI RX";
-			net_boost,node="wlan0";
-			net_boost,table_size = <4>;
-			net_boost,table= <
-				100 1170000 0 1053000 0 0 0 0 0 0
-				150 1469000 0 1248000 0 0 0 0 0 0
-				200 1690000 0 1248000 0 845000 400000 1 1 1
-				300 1924000  0 1456000 0 1352000 534000 1 1 1
-				>;
-		};
-		boot_device@7 {
-			net_boost,label="P2P";
-			net_boost,node="p2p-wlan0-0";
-			net_boost,table_size = <3>;
-			net_boost,table= <
-				30 1144000 0 1170000 0 0 0 0 0 0
-				90 1872000 0 1586000 0 0 255000 0 0 0
-				300 2080000 0 1586000 0 546000 255000 1 1 1
-				>;
-		};
+			net_boost,label = "NAN";
+			net_boost,node = "aware_data0";
+			net_boost,slowdown;
 
-		boot_device@8 {
-			net_boost,label="USB";
-			net_boost,node="rndis0";
-			net_boost,table_size = <3>;
-			net_boost,table= <
-				0 0 0 0 0 0 0 0 1 0
-				200 0 0 1456000 0 1540000 0 0 1 0
-				300 0 0 1690000 0 1794000 534000 0 1 0
-				>;
-		};
+			net_boost,table {
 
+				level_0 {
+					threshold = <60>;
+					big_min = <1469000>;
+					lit_min = <1456000>;
+				};
+
+				level_1 {
+					threshold = <150>;
+					big_min = <1690000>;
+					lit_min = <1690000>;
+				};
+
+				level_2 {
+					threshold = <200>;
+					big_min = <1924000>;
+					lit_min = <1794000>;
+					mif = <1352000>;
+					int = <400000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+
+				level_3 {
+					threshold = <300>;
+					big_min = <2002000>;
+					lit_min = <1794000>;
+					mif = <1794000>;
+					int = <534000>;
+					task_affinity = "enable";
+					irq_affinity = "enable";
+					hmp_boost = "enable";
+				};
+			};
+		};
 	};
 
 	dev_ril_bridge_pdata {

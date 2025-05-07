@@ -30,7 +30,8 @@
 #include "blk.h"
 #include "blk-mq.h"
 #include "blk-mq-tag.h"
-
+// #include "blk-mq-sysfs.c"
+// #include <linux/blk-mq-sysfs.h> 
 static DEFINE_MUTEX(all_q_mutex);
 static LIST_HEAD(all_q_list);
 
@@ -1975,7 +1976,7 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
 		goto err_exit;
 
 	/* init q->mq_kobj and sw queues' kobjects */
-	blk_mq_sysfs_init(q);
+	// blk_mq_sysfs_init(q);
 
 	q->queue_hw_ctx = kzalloc_node(nr_cpu_ids * sizeof(*(q->queue_hw_ctx)),
 						GFP_KERNEL, set->numa_node);
