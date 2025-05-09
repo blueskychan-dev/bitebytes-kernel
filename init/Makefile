@@ -10,10 +10,6 @@ obj-y                          += noinitramfs.o
 obj-$(CONFIG_BLK_DEV_INITRD)   += initramfs.o
 obj-$(CONFIG_GENERIC_CALIBRATE_DELAY) += calibrate.o
 
-ifeq ($(CONFIG_KVM), y)
-obj-y += _vmm.o vmm-kvm.o
-endif
-
 obj-$(CONFIG_UH)              += _uh.o uh.o ld.o uh_fault_handler.o
 AFLAGS__uh.o := -I$(srctree)
 obj-$(CONFIG_RKP_CFP_JOPP)     += rkp_cfp.o
