@@ -647,7 +647,7 @@
 		sibling-cpus = "4-7";
 		down-step = <1>;
 
-		max-freq-wo-ocp = <1794000>;
+		max-freq-wo-ocp = <2002000>;
 
 		release-mode = <1>;		/* 0 : current meter, 1 : cpu utilization */
 		release-threshold = <50>;	/* @current meter : current(A), @cpu load : capacity ratio(%) */
@@ -5023,8 +5023,8 @@
 		cl_busy_ratio = <65>;
 		/* single_freq is parsed from ECT */
 		dual_freq = <2314000>;
-		triple_freq = <1794000>;
-		quad_freq = <1794000>;
+		triple_freq = <2002000>;
+		quad_freq = <2002000>;
 		cal-id = <ACPM_DVFS_CPUCL1>;
 	};
 
@@ -5193,14 +5193,14 @@
 			dm-type = <DM_CPU_CL1>;
 
 			min-freq = <598000>;
-			max-freq = <1794000>;
-			policy-max = <1794000>;
+			max-freq = <2002000>;
+			policy-max = <2002000>;
 
 			/* PM QoS Class ID*/
 			pm_qos-min-class = <5>;
 			pm_qos-max-class = <6>;
 
-			pm_qos-booting = <1794000>;
+			pm_qos-booting = <2002000>;
 
 			#cooling-cells = <2>; /* min followed by max */
 
